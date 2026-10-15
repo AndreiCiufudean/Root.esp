@@ -1,2 +1,1 @@
-# Rootly
-Smart integrated system designed to monitor a plants health, paired with a data analysis interface.
+Root.esp is an intelligent IoT micro-greenhouse system engineered to automate plant care and optimize growth. By combining environment sensors (soil/air moisture & temperature) with automated climate and irrigation control, Root.esp maintains ideal conditions autonomously. Live telemetry feeds into a modern dashboard equipped with AI data analytics and a Computer Vision module for early plant disease detection.
