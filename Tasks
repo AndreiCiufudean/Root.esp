@@ -1,0 +1,27 @@
+1. Hardware (Andrei, Maria) (C/C++)
+A - proiectare 
+A - wireless
+M - senzori
+M/A - algoritmi locali
+
+2. Backend (Andrei, Elena, Naomi) (Java Script, NodeJS)
+A - comunicare esp32
+- baza de date
+- AI
+- comunicare frontend
+
+
+3. Frontend (Naomi, Maria) (Java script, React)
+- user interface:
+  - log in/sign in window
+  - AI chat box
+  - user windows (plant stats, daily tip, comunity)
+  - admin window
+  - main menu
+  - plant home page
+
+4. Presentation (Toti) (Powerpoint, Paint)
+- buissniss plan
+- powerpoint
+N - color shceme
+N - logo + graphics
