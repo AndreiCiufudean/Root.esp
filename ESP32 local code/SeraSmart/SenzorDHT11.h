@@ -12,8 +12,8 @@ class SenzorDHT11
   public:
     SenzorDHT11(int p, int tip=DHT11);
     void begin();
-    double CitireTemperatura();
-    double CitireUmiditate();
+    int CitireTemperatura();
+    int CitireUmiditate();
 };
 
 #endif DHT11_H

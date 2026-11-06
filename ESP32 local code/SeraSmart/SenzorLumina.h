@@ -11,7 +11,7 @@ class SenzorLumina{
   public:
     SenzorLumina(int p);
     void begin();
-    float CitesteLux(); //valori analogice 0-4095
+    int CitesteLux(); //valori analogice 0-4095
 };
 #endif S_LUMINA_H
 

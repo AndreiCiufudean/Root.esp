@@ -7,12 +7,12 @@ void SenzorDHT11::begin()
   dht.begin();
 }
 
-double SenzorDHT11::CitireTemperatura()
+int SenzorDHT11::CitireTemperatura()
 {
-  return dht.readTemperature();
+  return (int)dht.readTemperature();
 }
 
-double SenzorDHT11::CitireUmiditate()
+int SenzorDHT11::CitireUmiditate()
 {
-  return dht.readHumidity();
+  return (int)dht.readHumidity();
 }

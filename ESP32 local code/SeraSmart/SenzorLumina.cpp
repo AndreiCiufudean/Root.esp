@@ -10,8 +10,8 @@ void SenzorLumina::begin()
   pinMode(pin, INPUT); //trimite datele la esp32
 }
  
-float SenzorLumina::CitesteLux()
+int SenzorLumina::CitesteLux()
 {
-  float procent=(analogRead(pin), valmin, valmax, 0, 100);
+  int procent=map(analogRead(pin), valmin, valmax, 0, 100);
   return constrain(procent, 0, 100); //citeste lumina
 }

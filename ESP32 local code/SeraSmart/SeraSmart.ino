@@ -3,16 +3,19 @@
 #include "SenzorUmiditateSol.h"
 #include "Mosfet.h"
 #include "LEDURI.h"
+#include "Bluetooth.h"
 
-#define PIN_DHT11 16  //GPIO16 I/O digitala
+#define PIN_DHT11 32  //GPIO32 I/O digitala
 #define PIN_LUMINA 34  //GPIO34 intrare analogica
 #define PIN_SOL 33  //GPIO33 intrare analogica
-#define PIN_POMPA 18  //GPIO18 I/O digitala + generare semnal PWM
-#define PIN_VENTILATOR 19  //GPIO19 I/O digitala + generare semnal PWM
-#define LED_R 25 // iesire digitala/ PWM
+
+#define PIN_POMPA 19  //GPIO19 I/O digitala + generare semnal PWM
+#define PIN_VENTILATOR 18  //GPIO18 I/O digitala + generare semnal PWM
+
+#define LED_R 14 // iesire digitala/ PWM
 #define LED_G 26 // iesire digitala/ PWM
-#define LED_B 27 // iesire digitala/ PWM
-#define LED_Y 14 // iesire digitala/ PWM
+#define LED_B 25 // iesire digitala/ PWM
+#define LED_Y 27 // iesire digitala/ PWM
 
 SenzorLumina s_lumina(PIN_LUMINA);
 SenzorUmiditateSol s_umiditate_sol(PIN_SOL);
@@ -23,6 +26,48 @@ LEDURI red(LED_R);
 LEDURI green(LED_G);
 LEDURI blue(LED_B);
 LEDURI yellow(LED_Y);
+
+Bluetooth bt("SeraSmart");   // numele care apare la scanare pe telefon
+
+// Test hardware (pompa, ventilator, LED-uri). NU il apelati in demo:
+// are while(1) si blocheaza tot programul, inclusiv Bluetooth-ul.
+void test(int DELAY)
+{
+  bool i=0;
+  while(1)
+  {
+  if (i)
+  {
+    i=0;
+    ventilator.opreste();
+    delay(50);
+    pompa.porneste();
+  }
+  else
+  {
+    i=1;
+    pompa.opreste();
+    delay(50);
+    ventilator.porneste();
+  }
+
+  red.opreste();
+  blue.porneste();
+  delay(DELAY/4);
+  
+  blue.opreste();
+  green.porneste();
+  delay(DELAY/4);
+  
+  green.opreste();
+  yellow.porneste();
+  delay(DELAY/4);
+  
+  yellow.opreste();
+  red.porneste();
+  delay(DELAY/4);
+  }
+}
 
 void setup() {
   Serial.begin(115200);
@@ -41,8 +86,11 @@ void setup() {
   blue.opreste();
   yellow.begin();
   yellow.opreste();
+
+  bt.begin();
 }
 
+// ---- logica serei (nefolosita in demo, pastrata pentru mai tarziu) ----
 const int maxim_udari=10;
 const float temp_max=26.0;
 const float threshold_temp=2.0; // marja de toleranta a temperaturii maxime
@@ -67,53 +115,14 @@ void VerificaLumina(int lux)
   }
 }
 
+// ---- DEMO: LED galben aprins cat timp telefonul e conectat prin BLE ----
 void loop() {
-  int umiditate_sol;
-  float temp, lux;
+  bt.update();   // proceseaza conectarea/deconectarea si trimite "CONECTAT" la telefon
 
-  umiditate_sol=s_umiditate_sol.CitireUmiditateSol();
-  if(umiditate_sol<uscat)
-  {
-    int ct=0;
-    Serial.println("Sol uscat.");
-    while(umiditate_sol<ideal && ct<maxim_udari)
-    {
-      blue.porneste();
-      pompa.porneste();
-      delay(100);
-      ct++;
-      umiditate_sol=s_umiditate_sol.CitireUmiditateSol();
-    }
-    pompa.opreste();
-    blue.opreste();
-  }
-  else if(umiditate_sol>ud){
-    Serial.println("Sol foarte umed.");
-    Serial.println("Goleste apa din ghiveci.");
-    //inca ma gandesc daca sa pun ventilatie sau nu
-  }
-  
-  lux=s_lumina.CitesteLux();
-  VerificaLumina(lux);
+  if (bt.esteConectat())
+    yellow.porneste();
+  else
+    yellow.opreste();
 
-  temp=s_dht11.CitireTemperatura();
-  if(temp>temp_max+threshold_temp)
-  {
-    green.porneste();
-    Serial.println("Planta necesita ventilatie.");
-    ventilator.porneste();
-  }
-  if(temp<=temp_max-threshold_temp)
-  {
-    green.opreste();
-    Serial.println("Temperatura perfecta pentru planta!");
-    ventilator.opreste();
-  }
-  
-
-
-
-
-
-
+  delay(20);
 }
