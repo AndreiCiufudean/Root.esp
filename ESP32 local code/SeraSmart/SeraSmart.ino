@@ -87,6 +87,8 @@ void setup() {
   yellow.begin();
   yellow.opreste();
 
+  bt.laComanda(laComanda);
+  bt.laDeconectare(laDeconectare);
   bt.begin();
 }
 
@@ -115,14 +117,55 @@ void VerificaLumina(int lux)
   }
 }
 
-// ---- DEMO: LED galben aprins cat timp telefonul e conectat prin BLE ----
+// ---- POMPA controlata din telefon ----
+// Comenzi: "P1" = porneste pompa, "P0" = opreste pompa
+const unsigned long POMPA_TIMEOUT_MS = 5000;  // siguranta: pompa se opreste singura dupa 5 s
+bool pompaPornita = false;
+unsigned long pompaStart = 0;
+
+void PornestePompa()
+{
+  pompa.porneste();
+  blue.porneste();            // indicator vizual
+  pompaPornita = true;
+  pompaStart = millis();
+  bt.trimite("POMPA:ON");
+  Serial.println("Pompa pornita");
+}
+
+void OprestePompa()
+{
+  pompa.opreste();
+  blue.opreste();
+  pompaPornita = false;
+  bt.trimite("POMPA:OFF");
+  Serial.println("Pompa oprita");
+}
+
+void laComanda(String c)
+{
+  c.toUpperCase();
+  if (c == "P1")      PornestePompa();
+  else if (c == "P0") OprestePompa();
+  else                bt.trimite("EROARE:" + c);
+}
+
+void laDeconectare()
+{
+  if (pompaPornita) OprestePompa();   // nu lasam pompa pornita daca pica conexiunea
+}
+
+// ---- DEMO ----
 void loop() {
-  bt.update();   // proceseaza conectarea/deconectarea si trimite "CONECTAT" la telefon
+  bt.update();   // conectare/deconectare, "CONECTAT", comenzi primite
 
   if (bt.esteConectat())
     yellow.porneste();
   else
     yellow.opreste();
+
+  if (pompaPornita && millis() - pompaStart >= POMPA_TIMEOUT_MS)
+    OprestePompa();
 
   delay(20);
 }
