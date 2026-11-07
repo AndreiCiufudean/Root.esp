@@ -1,0 +1,15 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');const path=require('node:path');
+const base=path.resolve(__dirname,'..');const read=x=>fs.readFileSync(path.join(base,x),'utf8');
+const app=read('Frontend/App.js'), nav=read('Frontend/src/Sidebar.js'), design=read('Frontend/src/screens/DesignScreen.js'), api=read('Frontend/src/api.js'), backend=read('Backend/Database_interface/index.js'),routes=read('Backend/Database_interface/design_routes.js');
+for(const s of ['Home','Plants','Design','Assistant','Profile'])assert.match(app,new RegExp('Tabs.Screen name="'+s+'"'));
+assert.equal((app.match(/<Tabs.Screen name=/g)||[]).length,5,'five main destinations (v2.3 adds Assistant)');
+assert.doesNotMatch(app,/GameScreen|DiscoverScreen|CreditsModal/);
+assert.match(nav,/SIDEBAR_WIDTH=216/);assert.match(nav,/Assistant:\{label:'Assistant'/);
+assert.match(design,/USE_MOCK/);assert.match(design,/getDesignRequests/);
+assert.match(api,/generateDesign: \(payload\) => http/);
+assert.match(routes,/OPENAI_API_KEY/);assert.match(routes,/authenticate/);assert.match(routes,/pending_review/);
+assert.doesNotMatch(backend,/mountDiscoveryRoutes/);
+assert.match(read('Backend/Database/migrate-premium-design.sql'),/CREATE TABLE dbo.DesignReviewRequests/);
+const moduleNames=['GameScreen.js','DiscoverScreen.js','CreditsModal.js'];for(const n of moduleNames)assert.ok(!fs.existsSync(path.join(base,'Frontend/src/screens',n)),'removed '+n);
+console.log('PASS: five tabs, design service backend isolation, SQL migration, retired game/discovery/credits');

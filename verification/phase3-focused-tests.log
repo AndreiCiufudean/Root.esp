@@ -1,0 +1,36 @@
+PASS new game has 3 virtual water, 1 room and 10 slots
+PASS registered plants mapped by exact stable IDs
+PASS species generate suitable illustrations
+PASS create a room without removing previous room
+PASS rename preserves stable room identity
+PASS move plant to a new room and slot
+PASS occupied destination swaps plant instead of losing it
+PASS cloud earned water added to inventory
+PASS watering spends one virtual water and grants joy
+PASS cleaning dirty leaves earns one petal
+PASS cleaning a clean plant does not double-earn resources
+PASS real plant rename keeps ID, room and virtual growth
+PASS removal does not destroy unrelated progress; addition is deduplicated
+PASS repeated reconnect sync never duplicates plant
+PASS true fetched empty list removes mapped plants but retains rooms/resources
+PASS game prevents watering without earned inventory
+PASS fresh second account state is independent from existing garden
+PASS game reads real plant list without changing backend
+PASS cached offline garden persists every action and uses account-prefixed keys
+PASS game has playable catch loop, timer, navigation, simple lane buttons and keyboard
+PASS game includes room creation, cleaning, virtual watering, pause, credits and settings
+PASS intro skip is passed separately and disables all future default tours for that account
+PASS new notification status order is unread/read/all
+PASS starter alert becomes disabled and action completion is account-persisted
+PASS desktop sidebar width is explicit
+PASS illustrations are all local assets, never stock photo URLs
+PASS all 12 illustrated game images are bundled and nonempty
+PASS shared credits include game assets and origin/licensing
+PASS original local music and synthesized sound effects are bundled
+PASS web production registers offline service worker and sends first-load pre-cache list
+PASS service worker installation caches offline application shell
+PASS service worker pre-caches locally bundled art
+PASS simulated offline reload serves app shell
+PASS simulated offline image loads from local cache
+PASS service worker never caches live plant API responses
+PHASE 3: 35 checks passed (model, source integration, simulated SW offline)

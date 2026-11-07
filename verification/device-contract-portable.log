@@ -1,0 +1,80 @@
+Telemetry alert generation failed Error: injected notification DB error
+    at db.generateDeviceAlerts (/workspace/scratch/185952ba1328/repair3/Root.esp-main/tests/device-contract-test.cjs:15:86)
+    at /workspace/scratch/185952ba1328/repair3/Root.esp-main/Backend/Database_interface/device_routes.js:62:20
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[
+  {
+    "name": "inactive string-zero device rejected",
+    "pass": true,
+    "result": {
+      "status": 401,
+      "body": {
+        "error": "Invalid device credentials."
+      }
+    }
+  },
+  {
+    "name": "config has actual false booleans",
+    "pass": true,
+    "result": {
+      "status": 200,
+      "body": {
+        "plantID": 10,
+        "linked": true,
+        "settings": {
+          "AutomaticWateringEnabled": false,
+          "FanAutomaticEnabled": false
+        },
+        "maxWaterDurationSeconds": 1
+      }
+    }
+  },
+  {
+    "name": "claimed BIGINT command serializes",
+    "pass": true,
+    "result": {
+      "status": 200,
+      "body": {
+        "command": {
+          "CommandID": "50",
+          "CommandType": "Water",
+          "DurationSeconds": 5
+        }
+      }
+    }
+  },
+  {
+    "name": "telemetry save survives optional alert failure without reporting failed save",
+    "pass": true,
+    "result": {
+      "status": 201,
+      "saves": 1,
+      "body": {
+        "ok": true,
+        "recorded": true,
+        "alertsGenerated": false
+      }
+    }
+  },
+  {
+    "name": "terminal command status keeps full ID and device ownership",
+    "pass": true,
+    "result": {
+      "status": 200,
+      "body": {
+        "CommandID": "9223372036854775807",
+        "Status": "Failed"
+      }
+    }
+  },
+  {
+    "name": "out-of-range command status ID rejected",
+    "pass": true,
+    "result": {
+      "status": 400,
+      "body": {
+        "error": "Invalid command ID."
+      }
+    }
+  }
+]

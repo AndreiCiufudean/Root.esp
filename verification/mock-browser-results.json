@@ -1,0 +1,53 @@
+{
+  "results": [
+    {
+      "name": "login screen renders",
+      "pass": true
+    },
+    {
+      "name": "demo login and home render",
+      "pass": true
+    },
+    {
+      "name": "plant detail opens",
+      "pass": true
+    },
+    {
+      "name": "mock water gives simulation message",
+      "pass": true
+    },
+    {
+      "name": "care settings save",
+      "pass": true
+    },
+    {
+      "name": "alerts and mark all read",
+      "pass": true
+    },
+    {
+      "name": "assistant replies",
+      "pass": true
+    },
+    {
+      "name": "devices screen and registration",
+      "pass": true
+    },
+    {
+      "name": "add plant flow",
+      "pass": true
+    },
+    {
+      "name": "admin tabs render",
+      "pass": true
+    },
+    {
+      "name": "mobile viewport renders",
+      "pass": true
+    },
+    {
+      "name": "no unhandled browser errors",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

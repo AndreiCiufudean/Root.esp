@@ -1,0 +1,6 @@
+{
+  "date": "2026-11-01",
+  "parser": "Global TypeScript JS/JSX parser; does not resolve imports or build Expo",
+  "filesParsed": 64,
+  "errors": []
+}

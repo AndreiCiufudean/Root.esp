@@ -1,0 +1,496 @@
+[
+  {
+    "name": "real Express ownership rejects different user",
+    "pass": true,
+    "observed": {
+      "status": 403,
+      "json": {
+        "error": "Acces interzis."
+      },
+      "text": "{\"error\":\"Acces interzis.\"}"
+    }
+  },
+  {
+    "name": "real Express valid detail contract",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "PlantID": 3,
+        "UserID": 1,
+        "DeviceID": 2,
+        "SpeciesID": 1,
+        "PlantName": "My basil",
+        "species": {
+          "SpeciesID": 1,
+          "CommonName": "Basil"
+        },
+        "device": {
+          "DeviceID": 2,
+          "DeviceName": "ESP32"
+        },
+        "settings": {
+          "PlantID": 3,
+          "SoilMoistureThreshold": 30,
+          "WateringDurationSeconds": 5
+        },
+        "latest": null,
+        "history": [],
+        "watering": [],
+        "activities": [],
+        "reports": [],
+        "possibleDiseases": []
+      },
+      "text": "{\"PlantID\":3,\"UserID\":1,\"DeviceID\":2,\"SpeciesID\":1,\"PlantName\":\"My basil\",\"species\":{\"SpeciesID\":1,\"CommonName\":\"Basil\"},\"device\":{\"DeviceID\":2,\"DeviceName\":\"ESP32\"},\"settings\":{\"PlantID\":3,\"SoilMoistureThreshold\":30,\"WateringDurationSeconds\":5},\"latest\":null,\"history\":[],\"watering\":[],\"activities\":[],\"reports\":[],\"possibleDiseases\":[]}"
+    }
+  },
+  {
+    "name": "malformed JSON returns 400",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Cerere JSON invalidă."
+      },
+      "text": "{\"error\":\"Cerere JSON invalidă.\"}"
+    }
+  },
+  {
+    "name": "oversized JSON returns 413",
+    "pass": true,
+    "observed": {
+      "status": 413,
+      "json": {
+        "error": "Cerere prea mare."
+      },
+      "text": "{\"error\":\"Cerere prea mare.\"}"
+    }
+  },
+  {
+    "name": "missing plant body returns 400",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Numele plantei este obligatoriu."
+      },
+      "text": "{\"error\":\"Numele plantei este obligatoriu.\"}"
+    }
+  },
+  {
+    "name": "numeric location rejected",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Locație, dată sau notițe invalide."
+      },
+      "text": "{\"error\":\"Locație, dată sau notițe invalide.\"}"
+    }
+  },
+  {
+    "name": "invalid planted date rejected",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Locație, dată sau notițe invalide."
+      },
+      "text": "{\"error\":\"Locație, dată sau notițe invalide.\"}"
+    }
+  },
+  {
+    "name": "assistant retains plant name",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "answer": "Check the soil of these potentially dry plants: Basil. Confirm the soil is dry before watering.",
+        "mode": "basic"
+      },
+      "text": "{\"answer\":\"Check the soil of these potentially dry plants: Basil. Confirm the soil is dry before watering.\",\"mode\":\"basic\"}"
+    }
+  },
+  {
+    "name": "assistant ignores boolean sensor",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "answer": "Check the soil moisture, temperature, and light readings. This is a basic care helper; an AI provider has not been connected yet.",
+        "mode": "basic"
+      },
+      "text": "{\"answer\":\"Check the soil moisture, temperature, and light readings. This is a basic care helper; an AI provider has not been connected yet.\",\"mode\":\"basic\"}"
+    }
+  },
+  {
+    "name": "concurrent water requests queue at most one",
+    "pass": true,
+    "observed": {
+      "statuses": [
+        202,
+        409
+      ],
+      "creates": 1
+    }
+  },
+  {
+    "name": "real bcrypt valid login",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "message": "Autentificare reușită.",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3OTMzOTE2MzEsImV4cCI6MTc5MzM5ODgzMX0.Q88Gq81ycq99Zf2Eni5C9u210OJlZPWZkMeHbtfMMo0",
+        "user": {
+          "userID": 1,
+          "username": "Real",
+          "email": "real@example.com",
+          "isAdmin": false,
+          "UserID": 1,
+          "Username": "Real",
+          "Email": "real@example.com",
+          "IsAdmin": false,
+          "IsActive": true
+        }
+      },
+      "text": "{\"message\":\"Autentificare reușită.\",\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3OTMzOTE2MzEsImV4cCI6MTc5MzM5ODgzMX0.Q88Gq81ycq99Zf2Eni5C9u210OJlZPWZkMeHbtfMMo0\",\"user\":{\"userID\":1,\"username\":\"Real\",\"email\":\"real@example.com\",\"isAdmin\":false,\"UserID\":1,\"Username\":\"Real\",\"Email\":\"real@example.com\",\"IsAdmin\":false,\"IsActive\":true}}"
+    }
+  },
+  {
+    "name": "real bcrypt wrong password",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Email sau parolă incorectă."
+      },
+      "text": "{\"error\":\"Email sau parolă incorectă.\"}"
+    }
+  },
+  {
+    "name": "expired JWT denied",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Token invalid sau expirat."
+      },
+      "text": "{\"error\":\"Token invalid sau expirat.\"}"
+    }
+  },
+  {
+    "name": "wrong JWT secret denied",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Token invalid sau expirat."
+      },
+      "text": "{\"error\":\"Token invalid sau expirat.\"}"
+    }
+  },
+  {
+    "name": "string JWT userID denied",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Token invalid."
+      },
+      "text": "{\"error\":\"Token invalid.\"}"
+    }
+  },
+  {
+    "name": "inactive account denied with real JWT",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Contul este dezactivat."
+      },
+      "text": "{\"error\":\"Contul este dezactivat.\"}"
+    }
+  },
+  {
+    "name": "Unicode password over 72 bytes denied",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Completează username-ul și emailul și folosește o parolă de minimum 8 caractere."
+      },
+      "text": "{\"error\":\"Completează username-ul și emailul și folosește o parolă de minimum 8 caractere.\"}"
+    }
+  },
+  {
+    "name": "unknown URL returns 404",
+    "pass": true,
+    "observed": {
+      "status": 404,
+      "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /not-a-route</pre>\n</body>\n</html>\n"
+    }
+  },
+  {
+    "name": "valid settings accepted",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "PlantID": 3,
+        "SoilMoistureThreshold": 30,
+        "WateringDurationSeconds": 5
+      },
+      "text": "{\"PlantID\":3,\"SoilMoistureThreshold\":30,\"WateringDurationSeconds\":5}"
+    }
+  },
+  {
+    "name": "invalid setting SoilMoistureThreshold",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Setări invalide."
+      },
+      "text": "{\"error\":\"Setări invalide.\"}"
+    }
+  },
+  {
+    "name": "invalid setting WateringDurationSeconds",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Setări invalide."
+      },
+      "text": "{\"error\":\"Setări invalide.\"}"
+    }
+  },
+  {
+    "name": "invalid setting FanAutomaticEnabled",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Setări invalide."
+      },
+      "text": "{\"error\":\"Setări invalide.\"}"
+    }
+  },
+  {
+    "name": "invalid setting FanStartTemperature",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Setări invalide."
+      },
+      "text": "{\"error\":\"Setări invalide.\"}"
+    }
+  },
+  {
+    "name": "ODBC BIT zero never grants admin",
+    "pass": true,
+    "observed": {
+      "status": 403,
+      "json": {
+        "error": "Administrator necesar."
+      },
+      "text": "{\"error\":\"Administrator necesar.\"}"
+    }
+  },
+  {
+    "name": "ODBC BIT zero inactive account denied",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Contul este dezactivat."
+      },
+      "text": "{\"error\":\"Contul este dezactivat.\"}"
+    }
+  },
+  {
+    "name": "ODBC BIT zero disabled login denied",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Email sau parolă incorectă."
+      },
+      "text": "{\"error\":\"Email sau parolă incorectă.\"}"
+    }
+  },
+  {
+    "name": "ODBC BIGINT command serializes",
+    "pass": true,
+    "observed": {
+      "status": 202,
+      "json": {
+        "seconds": 5,
+        "commandID": "8",
+        "status": "Pending"
+      },
+      "text": "{\"seconds\":5,\"commandID\":\"8\",\"status\":\"Pending\"}"
+    }
+  },
+  {
+    "name": "ODBC BIGINT measurement serializes",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "PlantID": 3,
+        "UserID": 1,
+        "DeviceID": 2,
+        "SpeciesID": 1,
+        "PlantName": "My basil",
+        "species": {
+          "SpeciesID": 1,
+          "CommonName": "Basil"
+        },
+        "device": {
+          "DeviceID": 2,
+          "DeviceName": "ESP32"
+        },
+        "settings": {
+          "PlantID": 3,
+          "SoilMoistureThreshold": 30,
+          "WateringDurationSeconds": 5
+        },
+        "latest": {
+          "MeasurementID": "1",
+          "PlantID": 3,
+          "SoilMoisture": 50
+        },
+        "history": [
+          {
+            "MeasurementID": "1",
+            "PlantID": 3,
+            "SoilMoisture": 50
+          }
+        ],
+        "watering": [],
+        "activities": [],
+        "reports": [],
+        "possibleDiseases": []
+      },
+      "text": "{\"PlantID\":3,\"UserID\":1,\"DeviceID\":2,\"SpeciesID\":1,\"PlantName\":\"My basil\",\"species\":{\"SpeciesID\":1,\"CommonName\":\"Basil\"},\"device\":{\"DeviceID\":2,\"DeviceName\":\"ESP32\"},\"settings\":{\"PlantID\":3,\"SoilMoistureThreshold\":30,\"WateringDurationSeconds\":5},\"latest\":{\"MeasurementID\":\"1\",\"PlantID\":3,\"SoilMoisture\":50},\"history\":[{\"MeasurementID\":\"1\",\"PlantID\":3,\"SoilMoisture\":50}],\"watering\":[],\"activities\":[],\"reports\":[],\"possibleDiseases\":[]}"
+    }
+  },
+  {
+    "name": "ODBC BIGINT notification serializes",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": [
+        {
+          "NotificationID": "1",
+          "UserID": 1,
+          "IsRead": false
+        }
+      ],
+      "text": "[{\"NotificationID\":\"1\",\"UserID\":1,\"IsRead\":false}]"
+    }
+  },
+  {
+    "name": "malformed plant ID returns client error",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "ID plantă invalid."
+      },
+      "text": "{\"error\":\"ID plantă invalid.\"}"
+    }
+  },
+  {
+    "name": "bcrypt suffix beyond 72 bytes rejected at login",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Introdu emailul și parola."
+      },
+      "text": "{\"error\":\"Introdu emailul și parola.\"}"
+    }
+  },
+  {
+    "name": "command history requires authentication",
+    "pass": true,
+    "observed": {
+      "status": 401,
+      "json": {
+        "error": "Autentificare necesară."
+      },
+      "text": "{\"error\":\"Autentificare necesară.\"}"
+    }
+  },
+  {
+    "name": "command history denies nonowner",
+    "pass": true,
+    "observed": {
+      "status": 404,
+      "json": {
+        "error": "Planta nu există."
+      },
+      "text": "{\"error\":\"Planta nu există.\"}"
+    }
+  },
+  {
+    "name": "reconciliation requires pump confirmation",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Confirmă fizic că pompa este oprită."
+      },
+      "text": "{\"error\":\"Confirmă fizic că pompa este oprită.\"}"
+    }
+  },
+  {
+    "name": "reconciliation rejects malformed ID",
+    "pass": true,
+    "observed": {
+      "status": 400,
+      "json": {
+        "error": "Confirmă fizic că pompa este oprită."
+      },
+      "text": "{\"error\":\"Confirmă fizic că pompa este oprită.\"}"
+    }
+  },
+  {
+    "name": "reconciliation rejects ineligible command",
+    "pass": true,
+    "observed": {
+      "status": 409,
+      "json": {
+        "error": "Comanda nu poate fi reconciliată încă."
+      },
+      "text": "{\"error\":\"Comanda nu poate fi reconciliată încă.\"}"
+    }
+  },
+  {
+    "name": "reconciliation closes eligible owned command only",
+    "pass": true,
+    "observed": {
+      "status": 200,
+      "json": {
+        "ok": true,
+        "outcome": "Unknown; manually closed without replay"
+      },
+      "text": "{\"ok\":true,\"outcome\":\"Unknown; manually closed without replay\"}"
+    }
+  },
+  {
+    "name": "settings snapshot conflict returns 409",
+    "pass": true,
+    "observed": {
+      "status": 409,
+      "json": {
+        "error": "Settings changed elsewhere. Reload before saving."
+      },
+      "text": "{\"error\":\"Settings changed elsewhere. Reload before saving.\"}"
+    }
+  }
+]

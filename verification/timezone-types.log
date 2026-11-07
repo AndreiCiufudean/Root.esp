@@ -1,0 +1,26 @@
+PASS permission rejects false
+PASS permission rejects 0
+PASS permission rejects 0
+PASS permission rejects null
+PASS permission rejects undefined
+PASS permission rejects false
+PASS permission rejects true
+PASS permission rejects [object Object]
+PASS permission rejects 
+PASS permission rejects 2
+PASS permission accepts true
+PASS permission accepts 1
+PASS permission accepts 1
+PASS BIGINT IDs retain all 19 digits
+PASS invalid BIGINT rejected 0
+PASS invalid BIGINT rejected -1
+PASS invalid BIGINT rejected 1.1
+PASS invalid BIGINT rejected 01
+PASS invalid BIGINT rejected 1e3
+PASS invalid BIGINT rejected 9223372036854775808
+PASS invalid BIGINT rejected 9007199254740992
+PASS maximum SQL BIGINT accepted
+PASS UTC timestamps have explicit offset
+PASS date-only values stay calendar dates
+PASS actual DB query wrapper normalizes native types
+DB TYPE CASES: 25

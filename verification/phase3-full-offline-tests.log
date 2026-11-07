@@ -1,0 +1,283 @@
+
+===== check-project.js =====
+PASS one unified frontend at Frontend/
+PASS package and lock agree on dependencies
+PASS Expo 52 and React Native 0.76 use the same SDK generation
+PASS react and react-dom versions match
+PASS all 160 relative imports in 42 frontend JS files resolve
+PASS all original and extended app screens retained
+PASS backend JavaScript parses
+PASS watering command agrees with SQL CHECK constraint
+PASS browser CORS middleware and assistant endpoint exist
+PASS sound effects and wordmark assets exist
+PASS Sakura, Forest and Sea Glass each provide full light and dark palettes
+PASS logo and icon assets exist
+PASS assistant has no hardcoded LAN address
+PASS app runs in offline mock mode
+PASS login returns standard user shape
+PASS plant catalog populated
+PASS user plant list loads
+PASS device registration
+PASS add plant and detail settings
+PASS edit care settings
+PASS mock watering operation
+PASS user notifications load
+PASS mark notification read
+PASS mock assistant replies
+PASS plant created without a device
+PASS a device can be linked after the plant was created
+PASS a linked device can be replaced by another one
+PASS a device used by another plant cannot be linked twice
+PASS a device can be unlinked
+PASS an unlinked device becomes available again
+PASS slow-request tracker is exported
+PASS wrong password is rejected for a registered email
+PASS registered user has no password in the returned object
+PASS a new account only signs in with its own password
+PASS several plants can be added
+PASS custom plant type is created and linked
+PASS invalid custom moisture range is rejected
+PASS demo database export contains users and plants
+PASS assistant names the dry plant (Basil soil is 24%)
+PASS assistant answers a species light question
+PASS assistant fallback is not a "Demo reply"
+PASS real API mode selectable
+PASS real API requests use Bearer token
+PASS API uses configured base URL
+PASS assistant uses authenticated shared API
+PASS real API links a device with PUT /plants/:id/device
+PASS logout clears token
+
+ALL 47 OFFLINE CHECKS PASSED
+
+===== edge-test.js =====
+PASS mock rejects duplicate device code
+PASS mock blocks watering plant without device
+PASS settings validation blocks negative humidity threshold
+PASS mock rejects signup password length 6
+PASS invalid plant detail handled gracefully
+PASS soilStatus handles NaN as missing
+PASS isOnline future timestamp excluded
+EDGE_PASS 7 of 7
+
+===== route-test.js =====
+PASS healthcheck: 200
+PASS login rejects absent user: 401
+PASS login rejects wrong password: 401
+PASS login accepts valid password: 200
+PASS plant list no token: 401
+PASS plant list someone else: 403
+PASS plant list owner: 200
+PASS plant detail no token: 401
+PASS plant detail other user: 404
+PASS plant detail owner: 200
+PASS water disabled without token: 401
+PASS water queued valid: 202
+PASS settings reject invalid threshold: 400
+PASS settings reject empty: 400
+PASS assistant requires login: 401
+PASS assistant responds: 200
+PASS admin rejects normal user: 403
+PASS admin does not trust stale role claim: 403
+PASS admin accepts actual SQL admin: 200
+PASS disabled user token rejected: 401
+PASS notification read scoped: 200
+PASS preflight allowed: 204
+PASS preflight forbidden: 403
+RESULT: 23/23
+
+===== device-routes-test.js =====
+PASS disabled by default
+PASS HTTPS required
+PASS incorrect key rejected
+PASS bad device ID rejected
+PASS linked device config returned
+PASS empty telemetry blocked
+PASS settings included in device config
+PASS excessive actual duration blocked
+PASS bad telemetry blocked
+PASS invalid FanStatus blocked
+PASS telemetry saved to assigned plant
+PASS no command yields null
+PASS claimed command returned
+PASS invalid ack blocked
+PASS wrong command ID rejected
+PASS failed command acknowledged
+PASS completed command acknowledged
+DEVICE ROUTE: 17 / 17 PASS
+
+===== db-transactions-test.js =====
+PASS plant creation commits after both inserts
+PASS failed plant settings insertion rolls back
+PASS completed watering creates history in transaction
+PASS repeated/wrong acknowledgement not saved
+PASS device enrollment returns high-entropy one-time key
+DATABASE TRANSACTIONS: 5 / 5 PASS
+
+===== command-lifecycle-test.js =====
+PASS 30 concurrent enqueue attempts produce one command
+PASS excessive ACK duration rejected before mutation
+PASS repeated ACK succeeds with one watering history entry
+PASS conflicting terminal ACK rejected
+PASS failed insert rolls back and releases lock
+
+===== sensor-boundaries-test.js =====
+PASS 17 malformed/valid sensor and timestamp boundaries
+
+===== db-types-test.js =====
+PASS permission rejects false
+PASS permission rejects 0
+PASS permission rejects 0
+PASS permission rejects null
+PASS permission rejects undefined
+PASS permission rejects false
+PASS permission rejects true
+PASS permission rejects [object Object]
+PASS permission rejects 
+PASS permission rejects 2
+PASS permission accepts true
+PASS permission accepts 1
+PASS permission accepts 1
+PASS BIGINT IDs retain all 19 digits
+PASS invalid BIGINT rejected 0
+PASS invalid BIGINT rejected -1
+PASS invalid BIGINT rejected 1.1
+PASS invalid BIGINT rejected 01
+PASS invalid BIGINT rejected 1e3
+PASS invalid BIGINT rejected 9223372036854775808
+PASS invalid BIGINT rejected 9007199254740992
+PASS maximum SQL BIGINT accepted
+PASS UTC timestamps have explicit offset
+PASS date-only values stay calendar dates
+PASS actual DB query wrapper normalizes native types
+DB TYPE CASES: 25
+
+===== settings-concurrency-test.js =====
+PASS simultaneous edits with same baseline cause one write and one conflict
+PASS stale baseline cannot overwrite newer settings
+
+===== phase1-test.cjs =====
+PASS flow: preferences still loading -> splash
+PASS flow: brand-new visitor -> intro (before login)
+PASS flow: intro finished or skipped -> login (not the app)
+PASS flow: returning user with a session -> app, intro never shown
+PASS flow: replaying the intro from Me shows it even when signed in
+PASS fresh account has exactly 2 notifications right after registration
+PASS welcome text matches the spec
+PASS onboarding alert text matches the spec
+PASS both are unread and belong to the new user only
+PASS onboarding alert is not tied to a plant or device (no fabricated fault)
+PASS welcome is listed before the alert (newest first)
+PASS action button label is "Finally!"
+PASS logging in again does not create more notifications
+PASS a failed/retried registration (duplicate username or email) adds nothing
+PASS re-running the starter logic for the same user adds nothing
+PASS a second account gets its own two; the first and the demo account are untouched
+PASS notification ids are unique across accounts
+PASS "Finally!" acknowledgement marks only the alert as read
+PASS read/unread filters see the right rows
+PASS mark all as read clears this account only
+PASS starter notifications survive a save/reload of the demo database
+PASS ...and are not recreated after reload
+PASS onboarding alert is its own type, shown under Alerts
+PASS onboarding alert never raises the red (urgent) dot
+PASS new account badge: 2 unread, green only (matches App.js counts logic)
+PASS [backend sim] createUser returns the new id
+PASS [backend sim] user + 2 notifications are inserted in ONE transaction
+PASS [backend sim] notifications are scoped to the new user id and use the explicit types
+PASS [backend sim] SQL text has no user-controlled interpolation
+PASS [backend sim] a failure rolls the whole registration back (no half-created account)
+PASS backend and frontend starter texts are identical (type, title, message)
+PASS migration is idempotent, guards duplicates and does not back-fill
+PASS fresh-install schema contains the same unique index
+PASS credits cover images, game art, music, sound and fonts
+PASS every credit has creator, licence and modifications
+PASS all game photos are credited with source link and licence link
+PASS empty sections explain themselves
+PASS CREDITS.md is in sync with credits.js
+PASS [source] no transparent scene/content backgrounds and no z-index hacks in App.js
+PASS [source] scenes and navigation theme use the opaque colors.bg
+PASS [source] Skip is rendered on every intro step (not only on slides) and skips to login
+PASS [source] intro offers "Continue without signing" and states where the signature is stored
+PASS [source] "Finally!" marks read then goes to Main/Home and starts the tutorial
+PASS [source] local per-device welcome notes are gone (no duplicates with the account ones)
+PASS [source] credits: sidebar, Me, game and login open the popup; no permanent lists remain
+PASS [source] credits popup closes by button, backdrop, Escape and system back
+
+PHASE 1: 46 checks passed
+
+===== phase2-test.cjs =====
+PASS three distinct complete pastel themes
+PASS sakura/light: semantic surfaces + readable theme values
+PASS sakura/dark: semantic surfaces + readable theme values
+PASS forest/light: semantic surfaces + readable theme values
+PASS forest/dark: semantic surfaces + readable theme values
+PASS ocean/light: semantic surfaces + readable theme values
+PASS ocean/dark: semantic surfaces + readable theme values
+PASS Sakura is pink-led, not a solid green rail
+PASS Forest has its own sage rail
+PASS Sea Glass has a blue-green rail
+PASS master mute suppresses interaction sound
+PASS UI effects switch suppresses UI clicks
+PASS UI sound plays only after UI is enabled
+PASS game effects switch disables game-water SFX
+PASS game music starts and pauses without changing device data
+PASS account switches remount navigator, not an old AddAccount screen
+PASS new account intro is before its login screen
+PASS pledges use account IDs and demo/real namespace
+PASS legacy signature cannot be migrated to unrelated accounts
+PASS sound and appearance are device-level shared settings
+PASS single game settings entry opens shared modal
+PASS tour completion is per account and tab
+PASS tour anchors are measured and remeasured from rendered components
+PASS home: contextual steps exist
+PASS plants: contextual steps exist
+PASS notifications: contextual steps exist
+PASS community: contextual steps exist
+PASS game: contextual steps exist
+PASS all main tour screens anchor actual elements
+PASS game does not reference watering APIs
+PHASE 2: 30 checks passed (mocked audio, source-level layout/tour validation)
+
+===== phase3-test.cjs =====
+PASS new game has 3 virtual water, 1 room and 10 slots
+PASS registered plants mapped by exact stable IDs
+PASS species generate suitable illustrations
+PASS create a room without removing previous room
+PASS rename preserves stable room identity
+PASS move plant to a new room and slot
+PASS occupied destination swaps plant instead of losing it
+PASS cloud earned water added to inventory
+PASS watering spends one virtual water and grants joy
+PASS cleaning dirty leaves earns one petal
+PASS cleaning a clean plant does not double-earn resources
+PASS real plant rename keeps ID, room and virtual growth
+PASS removal does not destroy unrelated progress; addition is deduplicated
+PASS repeated reconnect sync never duplicates plant
+PASS true fetched empty list removes mapped plants but retains rooms/resources
+PASS game prevents watering without earned inventory
+PASS fresh second account state is independent from existing garden
+PASS game reads real plant list without changing backend
+PASS cached offline garden persists every action and uses account-prefixed keys
+PASS game has playable catch loop, timer, navigation, simple lane buttons and keyboard
+PASS game includes room creation, cleaning, virtual watering, pause, credits and settings
+PASS intro skip is passed separately and disables all future default tours for that account
+PASS new notification status order is unread/read/all
+PASS starter alert becomes disabled and action completion is account-persisted
+PASS desktop sidebar width is explicit
+PASS illustrations are all local assets, never stock photo URLs
+PASS all 12 illustrated game images are bundled and nonempty
+PASS shared credits include game assets and origin/licensing
+PASS original local music and synthesized sound effects are bundled
+PASS web production registers offline service worker and sends first-load pre-cache list
+PASS service worker installation caches offline application shell
+PASS service worker pre-caches locally bundled art
+PASS simulated offline reload serves app shell
+PASS simulated offline image loads from local cache
+PASS service worker never caches live plant API responses
+PHASE 3: 35 checks passed (model, source integration, simulated SW offline)
+
+===== check-firmware-offline.sh =====
+PASS: firmware source parses with offline stubs and light/soil mapping tests pass
+
+ALL AVAILABLE OFFLINE CHECKS PASSED

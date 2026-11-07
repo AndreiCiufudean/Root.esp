@@ -1,0 +1,11 @@
+const fs=require('fs'),os=require('os'),path=require('path'),{pathToFileURL}=require('url');
+(async()=>{const temp=fs.mkdtempSync(path.join(os.tmpdir(),'smartplant-edge-'));const dir=path.join(__dirname,'..','Frontend','src');for(const n of ['api','logic','mock','assistant','onboarding','notifTypes']) {let s=fs.readFileSync(path.join(dir,n+'.js'),'utf8').replace(/from\s+(['"])\.\/(mock|logic|assistant|onboarding|notifTypes)\1/g,"from './$2.mjs'");s=s.replace("const natureModel=require('./discoveryModel.cjs');","import natureModel from './discoveryModel.cjs';");fs.writeFileSync(path.join(temp,n+'.mjs'),s)}fs.copyFileSync(path.join(dir,'discoveryModel.cjs'),path.join(temp,'discoveryModel.cjs'));
+process.env.EXPO_PUBLIC_USE_MOCK='true';const {api}=await import(pathToFileURL(path.join(temp,'api.mjs')));const logic=await import(pathToFileURL(path.join(temp,'logic.mjs')));let pass=0;async function check(n,fn){try{let x=await fn(); console.log((x?'PASS':'FAIL'),n); if(x)pass++;}catch(e){console.log('EXCEPTION',n,e.message)}}
+await check('mock rejects duplicate device code',async()=>{try{await api.addDevice(2,'Duplicate','SERA-0001');return false}catch(e){return /already registered/i.test(e.message)}});
+await check('mock blocks watering plant without device',async()=>{let plant=await api.addPlant(2,{PlantName:'No-Device'});try{await api.waterNow(plant.PlantID);return false;}catch(e){return /device/i.test(e.message)}});
+await check('settings validation blocks negative humidity threshold',async()=>!!logic.validateSettings({SoilMoistureThreshold:-1,WateringDurationSeconds:5,FanStartTemperature:28,FanStopTemperature:24}));
+await check('mock rejects signup password length 6',async()=>{try{await api.register('sixchars','sixchars@example.com','123456');return false;}catch(e){return /8 characters/.test(e.message);}});
+await check('invalid plant detail handled gracefully',async()=>{try{await api.getPlantDetail(999999);return false}catch(e){return /plant|not found/i.test(e.message)}});
+await check('soilStatus handles NaN as missing',async()=>logic.soilStatus(NaN).label==='No data');
+await check('isOnline future timestamp excluded',async()=>!logic.isOnline(new Date(Date.now()+60*60*1000).toISOString()));
+console.log('EDGE_PASS',pass,'of',7);fs.rmSync(temp,{recursive:true,force:true})})().catch(console.error)

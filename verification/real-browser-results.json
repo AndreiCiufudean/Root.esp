@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "name": "real-mode login and bearer propagation",
+      "pass": true
+    },
+    {
+      "name": "home measurements refresh without navigation",
+      "pass": true
+    },
+    {
+      "name": "detail preserves unsaved threshold during refresh",
+      "pass": true
+    },
+    {
+      "name": "invalid numeric suffix never saves settings",
+      "pass": true
+    },
+    {
+      "name": "external settings refresh into pristine form",
+      "pass": true
+    },
+    {
+      "name": "conflicting external settings cannot be silently overwritten",
+      "pass": true
+    },
+    {
+      "name": "command endpoint outage preserves plant readings",
+      "pass": true
+    },
+    {
+      "name": "no unhandled browser errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "settingsSaves": [
+    {
+      "ExpectedSettings": {
+        "threshold": "30",
+        "auto": false,
+        "duration": "5",
+        "fanAuto": false,
+        "fanStart": "28",
+        "fanStop": "24"
+      },
+      "SoilMoistureThreshold": 42,
+      "AutomaticWateringEnabled": false,
+      "WateringDurationSeconds": 5,
+      "FanAutomaticEnabled": false,
+      "FanStartTemperature": 28,
+      "FanStopTemperature": 24
+    }
+  ]
+}

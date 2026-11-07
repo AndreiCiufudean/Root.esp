@@ -1,0 +1,141 @@
+
+===== check-project.js =====
+PASS one unified frontend at Frontend/
+PASS package and lock agree on dependencies
+PASS Expo 52 and React Native 0.76 use the same SDK generation
+PASS react and react-dom versions match
+PASS all 58 relative imports in 19 frontend JS files resolve
+PASS all original and extended app screens retained
+PASS backend JavaScript parses
+PASS watering command agrees with SQL CHECK constraint
+PASS browser CORS middleware and assistant endpoint exist
+PASS assistant has no hardcoded LAN address
+PASS app runs in offline mock mode
+PASS login returns standard user shape
+PASS plant catalog populated
+PASS user plant list loads
+PASS device registration
+PASS add plant and detail settings
+PASS edit care settings
+PASS mock watering operation
+PASS user notifications load
+PASS mark notification read
+PASS mock assistant replies
+PASS real API mode selectable
+PASS real API requests use Bearer token
+PASS API uses configured base URL
+PASS assistant uses authenticated shared API
+PASS logout clears token
+
+ALL 26 OFFLINE CHECKS PASSED
+
+===== edge-test.js =====
+PASS mock rejects duplicate device code
+PASS mock blocks watering plant without device
+PASS settings validation blocks negative humidity threshold
+PASS mock rejects signup password length 6
+PASS invalid plant detail handled gracefully
+PASS soilStatus handles NaN as missing
+PASS isOnline future timestamp excluded
+EDGE_PASS 7 of 7
+
+===== route-test.js =====
+PASS healthcheck: 200
+PASS login rejects absent user: 401
+PASS login rejects wrong password: 401
+PASS login accepts valid password: 200
+PASS plant list no token: 401
+PASS plant list someone else: 403
+PASS plant list owner: 200
+PASS plant detail no token: 401
+PASS plant detail other user: 404
+PASS plant detail owner: 200
+PASS water disabled without token: 401
+PASS water queued valid: 202
+PASS settings reject invalid threshold: 400
+PASS settings reject empty: 400
+PASS assistant requires login: 401
+PASS assistant responds: 200
+PASS admin rejects normal user: 403
+PASS admin does not trust stale role claim: 403
+PASS admin accepts actual SQL admin: 200
+PASS disabled user token rejected: 401
+PASS notification read scoped: 200
+PASS preflight allowed: 204
+PASS preflight forbidden: 403
+RESULT: 23/23
+
+===== device-routes-test.js =====
+PASS disabled by default
+PASS HTTPS required
+PASS incorrect key rejected
+PASS bad device ID rejected
+PASS linked device config returned
+PASS empty telemetry blocked
+PASS settings included in device config
+PASS excessive actual duration blocked
+PASS bad telemetry blocked
+PASS invalid FanStatus blocked
+PASS telemetry saved to assigned plant
+PASS no command yields null
+PASS claimed command returned
+PASS invalid ack blocked
+PASS wrong command ID rejected
+PASS failed command acknowledged
+PASS completed command acknowledged
+DEVICE ROUTE: 17 / 17 PASS
+
+===== db-transactions-test.js =====
+PASS plant creation commits after both inserts
+PASS failed plant settings insertion rolls back
+PASS completed watering creates history in transaction
+PASS repeated/wrong acknowledgement not saved
+PASS device enrollment returns high-entropy one-time key
+DATABASE TRANSACTIONS: 5 / 5 PASS
+
+===== command-lifecycle-test.js =====
+PASS 30 concurrent enqueue attempts produce one command
+PASS excessive ACK duration rejected before mutation
+PASS repeated ACK succeeds with one watering history entry
+PASS conflicting terminal ACK rejected
+PASS failed insert rolls back and releases lock
+
+===== sensor-boundaries-test.js =====
+PASS 17 malformed/valid sensor and timestamp boundaries
+
+===== db-types-test.js =====
+PASS permission rejects false
+PASS permission rejects 0
+PASS permission rejects 0
+PASS permission rejects null
+PASS permission rejects undefined
+PASS permission rejects false
+PASS permission rejects true
+PASS permission rejects [object Object]
+PASS permission rejects 
+PASS permission rejects 2
+PASS permission accepts true
+PASS permission accepts 1
+PASS permission accepts 1
+PASS BIGINT IDs retain all 19 digits
+PASS invalid BIGINT rejected 0
+PASS invalid BIGINT rejected -1
+PASS invalid BIGINT rejected 1.1
+PASS invalid BIGINT rejected 01
+PASS invalid BIGINT rejected 1e3
+PASS invalid BIGINT rejected 9223372036854775808
+PASS invalid BIGINT rejected 9007199254740992
+PASS maximum SQL BIGINT accepted
+PASS UTC timestamps have explicit offset
+PASS date-only values stay calendar dates
+PASS actual DB query wrapper normalizes native types
+DB TYPE CASES: 25
+
+===== settings-concurrency-test.js =====
+PASS simultaneous edits with same baseline cause one write and one conflict
+PASS stale baseline cannot overwrite newer settings
+
+===== check-firmware-offline.sh =====
+PASS: firmware source parses with offline stubs and light/soil mapping tests pass
+
+ALL AVAILABLE OFFLINE CHECKS PASSED

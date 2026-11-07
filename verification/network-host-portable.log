@@ -1,0 +1,8 @@
+PASS real JSON booleans and fractional threshold retained
+PASS string-zero flags rejected and automatic controls disabled
+PASS 19-digit command ID retained and five lost ACK retries do not replay pump
+PASS terminal ACK conflict reconciles and subsequent command polling resumes
+PASS persisted watering marker blocks reboot-equivalent immediate watering
+PASS failed persistent write prevents pump actuation
+PASS wet and invalid soil do not actuate pump
+PASS invalid and out-of-range command IDs cannot actuate

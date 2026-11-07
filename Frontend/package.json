@@ -1,0 +1,51 @@
+{
+  "name": "root-esp-frontend",
+  "version": "2.5.3",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "web": "expo start --web",
+    "check": "node ../tests/redesign-run-all.cjs",
+    "check:all": "node ../tests/redesign-run-all.cjs",
+    "setup": "npx expo install --fix",
+    "apk": "npx eas-cli@latest build -p android --profile apk",
+    "apk:local": "npx eas-cli@latest build -p android --profile apk --local",
+    "apk:gradle": "npx expo prebuild -p android --clean && cd android && gradlew assembleRelease"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~4.0.1",
+    "@expo/vector-icons": "^14.0.4",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-navigation/bottom-tabs": "^7.2.0",
+    "@react-navigation/native": "^7.0.14",
+    "@react-navigation/native-stack": "^7.2.0",
+    "expo": "~52.0.0",
+    "expo-asset": "~11.0.5",
+    "expo-av": "~15.0.2",
+    "expo-font": "~13.0.4",
+    "expo-image-picker": "~16.0.6",
+    "expo-linear-gradient": "~14.0.2",
+    "expo-status-bar": "~2.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.9",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0",
+    "react-native-svg": "15.8.0",
+    "react-native-web": "~0.19.13"
+  },
+  "overrides": {
+    "postcss": "^8.5.23",
+    "@xmldom/xmldom": "^0.8.15"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "expo-av"
+        ]
+      }
+    }
+  }
+}
